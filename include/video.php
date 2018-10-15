@@ -11,25 +11,25 @@ class Video {
     private $basePath;
     private $pathToFiles;
 
-    public function __construct($name, $configData, $basePath, $pathToFiles) {
+    public function __construct($name, $fileConfiguration, $basePath, $pathToFiles) {
         $this->name = $name;
-        if (!array_key_exists('filename', $configData) || !array_key_exists('start', $configData)){
+        if (!array_key_exists('filename', $fileConfiguration) || !array_key_exists('start', $fileConfiguration)){
             throw new Exception('Invalid filename | start time');
         }
-        if (empty($configData['filename']) || empty($configData['start'])){
+        if (empty($fileConfiguration['filename']) || empty($fileConfiguration['start'])){
             throw new Exception('Missing filename | start time');
         }
 	$this->basePath = $basePath;
    	$this->pathToFiles = $pathToFiles;
 
-        $this->startTime = $configData['start'];
-        if (array_key_exists('end', $configData)){
-            $this->endTime = $configData['end'];
+        $this->startTime = $fileConfiguration['start'];
+        if (array_key_exists('end', $fileConfiguration)){
+            $this->endTime = $fileConfiguration['end'];
         }
         if (isset($this->endTime)){
             $this->duration = gmdate("H:i:s", strtotime($this->endTime) - strtotime($this->startTime));
         }
-        $this->source_filename = $configData['filename'];
+        $this->source_filename = $fileConfiguration['filename'];
         $finfo = pathinfo($this->source_filename);
         $this->destination_filename = (!empty($basePath) ? $basePath : '') . DIRECTORY_SEPARATOR;
         if (!empty($this->pathToFiles)){
