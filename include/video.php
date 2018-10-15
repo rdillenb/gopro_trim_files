@@ -29,7 +29,11 @@ class Video {
         if (isset($this->endTime)){
             $this->duration = gmdate("H:i:s", strtotime($this->endTime) - strtotime($this->startTime));
         }
-        $this->source_filename = (isset($this->basePath) ? $this->basePath . DIRECTORY_SEPARATOR : '') . $fileConfiguration['filename'];
+        $this->source_filename = (!empty($this->basePath) ? $this->basePath : '') . DIRECTORY_SEPARATOR;
+	if (!empty($pathToFiles)) {
+      	    $this->source_filename .= $pathToFiles . DIRECTORY_SEPARATOR;
+        }
+        $file .= $fileConfiguration['filename'];
         $finfo = pathinfo($this->source_filename);
         $this->destination_filename = (!empty($basePath) ? $basePath : '') . DIRECTORY_SEPARATOR;
         if (!empty($this->pathToFiles)){
