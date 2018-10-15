@@ -1,5 +1,7 @@
 #!/usr/bin/php
 <?php
+error_reporting(0);
+
 require_once('vendor/autoload.php');
 
 if (!file_exists(dirname(__FILE__) . '/cfg/vid.ini')) {

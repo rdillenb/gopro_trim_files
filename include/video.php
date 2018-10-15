@@ -33,7 +33,7 @@ class Video {
 	if (!empty($pathToFiles)) {
       	    $this->source_filename .= $pathToFiles . DIRECTORY_SEPARATOR;
         }
-        $file .= $fileConfiguration['filename'];
+        $this->source_filename .= $fileConfiguration['filename'];
         $finfo = pathinfo($this->source_filename);
         $this->destination_filename = (!empty($basePath) ? $basePath : '') . DIRECTORY_SEPARATOR;
         if (!empty($this->pathToFiles)){
@@ -43,6 +43,9 @@ class Video {
 
     public function getSaveFileName($saveDirectory) {
         $finfo = pathinfo($this->source_filename);
+        if (!is_dir(dirname($this->basePath) . DIRECTORY_SEPARATOR . $saveDirectory)) {
+            mkdir(dirname($this->basePath) . DIRECTORY_SEPARATOR . $saveDirectory);
+        }
         return dirname($this->basePath) . DIRECTORY_SEPARATOR . $saveDirectory . DIRECTORY_SEPARATOR . $this->name . '_' . $finfo['filename'] . '.' . $finfo['extension'];
     }
 
