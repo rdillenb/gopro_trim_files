@@ -1,8 +1,8 @@
 #!/usr/bin/php
 <?php
-error_reporting(0);
+#error_reporting(0);
 
-require_once('vendor/autoload.php');
+require_once(dirname(__FILE__) . '/vendor/autoload.php');
 
 if (!file_exists(dirname(__FILE__) . '/cfg/vid.ini')) {
    throw new Exception('Configuration settings not found');
