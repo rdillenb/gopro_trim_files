@@ -17,6 +17,8 @@ foreach ($settings as $name => $fileConfiguration) {
       continue;
    }
    $video = new Video($name, $fileConfiguration, $settings->config['basePath'], $settings->config['pathToFiles']);
+var_dump($video);
    $shell = $video->getShell($settings->config['saveDirectory']);
+   $shell->run();
    echo $shell->command . "\n";
 }

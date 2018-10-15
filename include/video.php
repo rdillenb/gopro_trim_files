@@ -21,13 +21,15 @@ class Video {
         }
 	$this->basePath = $basePath;
    	$this->pathToFiles = $pathToFiles;
-
+        
         $this->startTime = $fileConfiguration['start'];
         if (array_key_exists('end', $fileConfiguration)){
             $this->endTime = $fileConfiguration['end'];
         }
-        if (isset($this->endTime)){
-            $this->duration = gmdate("H:i:s", strtotime($this->endTime) - strtotime($this->startTime));
+        if (isset($this->endTime)) {
+            $start = new Duration($this->startTime);
+            $end = new Duration($this->endTime);
+            $this->duration = $end->seconds - $start->seconds;
         }
         $this->source_filename = (!empty($this->basePath) ? $this->basePath : '') . DIRECTORY_SEPARATOR;
 	if (!empty($pathToFiles)) {
@@ -43,15 +45,15 @@ class Video {
 
     public function getSaveFileName($saveDirectory) {
         $finfo = pathinfo($this->source_filename);
-        if (!is_dir(dirname($this->basePath) . DIRECTORY_SEPARATOR . $saveDirectory)) {
-            mkdir(dirname($this->basePath) . DIRECTORY_SEPARATOR . $saveDirectory);
+        if (!is_dir($saveDirectory)) {
+            mkdir($saveDirectory);
         }
-        return dirname($this->basePath) . DIRECTORY_SEPARATOR . $saveDirectory . DIRECTORY_SEPARATOR . $this->name . '_' . $finfo['filename'] . '.' . $finfo['extension'];
+        return $saveDirectory . DIRECTORY_SEPARATOR . $this->name . '_' . $finfo['filename'] . '.' . $finfo['extension'];
     }
 
     public function getShell($saveToDirectory){
         return ExecuteShell::get(
-	    sprintf('ffmpeg -i %s -ss %s%s -async 1 %s', 
+	    sprintf('ffmpeg -y -i %s -ss %s%s -async 1 %s', 
 			escapeshellarg($this->source_filename), 
 			$this->startTime, 
 			isset($this->duration) ? sprintf(' -t %s', $this->duration) : '', 
