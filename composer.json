@@ -1,0 +1,33 @@
+{
+    "version": "master",
+    "authors": [
+        {
+            "name": "Russell Dillenburg",
+            "email": "rc.dillenburg@gmail.com",
+            "role": "lead"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "optimize-autoloader": true
+    },
+    "name": "goProTrimFiles",
+    "autoload": {
+        "classmap": ["include"]
+    },
+    "require": {
+        "php": ">=7.0"
+    },
+    "scripts": {
+        "pre-install-cmd": [
+            "chmod a+x splitGoPro.php"
+        ], 
+        "pre-update-cmd": [
+            "chmod a+x splitGoPro.php"
+        ]
+    },
+    "bin": [
+        "splitGoPro.php"
+    ]
+
+}
