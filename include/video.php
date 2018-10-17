@@ -1,5 +1,7 @@
 <?php
 
+use Khill\Duration\Duration;
+
 class Video {
 
     private $name;
@@ -29,7 +31,8 @@ class Video {
         if (isset($this->endTime)) {
             $start = new Duration($this->startTime);
             $end = new Duration($this->endTime);
-            $this->duration = $end->seconds - $start->seconds;
+            $this->duration = $end->toSeconds() - $start->toSeconds();
+            echo '[' . __FUNCTION__ . '] duration: ' . $this->duration . "\n";
         }
         $this->source_filename = (!empty($this->basePath) ? $this->basePath : '') . DIRECTORY_SEPARATOR;
 	if (!empty($pathToFiles)) {
@@ -53,7 +56,7 @@ class Video {
 
     public function getShell($saveToDirectory){
         return ExecuteShell::get(
-	    sprintf('ffmpeg -y -i %s -ss %s%s -async 1 %s', 
+	    sprintf('ffmpeg -y -i %s -ss %s%s -async 1 -strict -2 %s', 
 			escapeshellarg($this->source_filename), 
 			$this->startTime, 
 			isset($this->duration) ? sprintf(' -t %s', $this->duration) : '', 

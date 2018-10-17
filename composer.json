@@ -16,7 +16,8 @@
         "classmap": ["include"]
     },
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+	"khill/php-duration": "@stable"
     },
     "scripts": {
         "pre-install-cmd": [
