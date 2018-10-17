@@ -17,7 +17,7 @@
     },
     "require": {
         "php": ">=7.0",
-	"khill/php-duration": "@stable"
+        "khill/php-duration": "@stable"
     },
     "scripts": {
         "pre-install-cmd": [
@@ -30,5 +30,4 @@
     "bin": [
         "splitGoPro.php"
     ]
-
 }
