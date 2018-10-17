@@ -28,7 +28,7 @@ class Video {
         if (!empty($this->endTime)) {
             $end = new Duration($this->endTime);
             $this->duration = $end->toSeconds() - $start->toSeconds();
-            echo_output('[' . __FUNCTION__ . '] duration: ' . $this->duration);
+            echo_output('[VIDEO] duration: ' . $this->duration);
         }
         $this->source_filename = (!empty($this->basePath) ? $this->basePath : '') . DIRECTORY_SEPARATOR;
         if (!empty($this->pathToFiles)) {
@@ -39,6 +39,8 @@ class Video {
         if (!empty($this->pathToFiles)) {
             $this->destination_filename .= $this->pathToFiles . DIRECTORY_SEPARATOR;
         }
+        $src = (object) pathinfo($this->source_filename);
+        echo_output('[VIDEO] SRC="' . $src->basename . '"');
     }
 
     public function getSaveFileName($saveDirectory) {
@@ -46,7 +48,10 @@ class Video {
         if (!is_dir($saveDirectory)) {
             mkdir($saveDirectory);
         }
-        return $saveDirectory . DIRECTORY_SEPARATOR . $this->name . '_' . $finfo['filename'] . '.' . $finfo['extension'];
+        $saveFile = $saveDirectory . DIRECTORY_SEPARATOR . $this->name . '_' . $finfo['filename'] . '.' . $finfo['extension'];
+        $dest = (object) pathinfo($saveFile);
+        echo_output('[' . __FUNCTION__ . '] ' . $dest->basename);
+	return $saveFile;
     }
 
     public function getShell($saveToDirectory) {
