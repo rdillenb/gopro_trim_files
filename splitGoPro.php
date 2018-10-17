@@ -13,12 +13,15 @@ define('VERBOSE', Config::instance()->boolValue('VERBOSE'));
 
 $settings = (object) parse_ini_file(dirname(__FILE__) . '/cfg/vid.ini', TRUE);
 foreach ($settings as $name => $fileConfiguration) {
+    if ($name === 'config') {
+        continue;
+    }
     $startTime = Config::instance()->get('start', $name, NULL);
     $filename = Config::instance()->get('filename', $name, NULL);
     if (empty($startTime) || empty($filename)) {
         throw new Exception('Unable to process invalid group <' . $name . '>');
     }
     $video = new Video($name);
-    $shell = $video->getShell($settings->config['saveDirectory']);
+    $shell = $video->getShell(Config::instance()->get('SAVE_DIRECTORY', 'config'));
     $shell->run();
 }

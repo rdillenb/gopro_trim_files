@@ -15,10 +15,10 @@ class Video {
     private $encodingCommand;
 
     public function __construct($name) {
-        $this->basePath = Config::instance()->get('basePath', dirname(__FILE__));
-        $this->pathToFiles = Config::instance()->get('pathToFiles', dirname(__FILE__));
+        $this->basePath = Config::instance()->get('BASE_DIR', 'config', dirname(__FILE__));
+        $this->pathToFiles = Config::instance()->get('PATH_TO_FILES', 'config', dirname(__FILE__));
         $this->name = $name;
-        $this->encodingCommand = Config::instance()->get('ENCODE_COMMAND', NULL);
+        $this->encodingCommand = Config::instance()->get('ENCODE_COMMAND', 'config', NULL);
         if (is_null($this->encodingCommand)) {
             throw new Exception('Invalid encoding command NULL');
         }
