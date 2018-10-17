@@ -53,4 +53,8 @@ class Video {
         return ExecuteShell::get(sprintf($this->encodingCommand, escapeshellarg($this->source_filename), $this->startTime, isset($this->duration) ? sprintf(' -t %s', $this->duration) : '', escapeshellarg($this->getSaveFileName($saveToDirectory))));
     }
 
+    public function destinationFileExists() {
+        return file_exists($this->destination_filename);
+    }
+
 }

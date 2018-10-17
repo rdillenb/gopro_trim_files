@@ -23,5 +23,9 @@ foreach ($settings as $name => $fileConfiguration) {
     }
     $video = new Video($name);
     $shell = $video->getShell(Config::instance()->get('SAVE_DIRECTORY', 'config'));
-    $shell->run();
+    if (!$video->destinationFileExists() || Config::instance()->boolValue('OVERWRITE_FILE', 'config', FALSE)) {
+        $shell->run();
+    } else if ($video->destinationFileExists()) {
+        echo_output('Output file already exists for ' . $name);
+    }
 }
