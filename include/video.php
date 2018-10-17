@@ -12,9 +12,11 @@ class Video {
     private $duration;
     private $basePath;
     private $pathToFiles;
+    private $encodingCommand;
 
     public function __construct($name, $fileConfiguration, $basePath, $pathToFiles) {
         $this->name = $name;
+	$this->encodingCommand = $fileConfiguration['ENCODE_COMMAND'];
         if (!array_key_exists('filename', $fileConfiguration) || !array_key_exists('start', $fileConfiguration)){
             throw new Exception('Invalid filename | start time');
         }
@@ -56,11 +58,9 @@ class Video {
 
     public function getShell($saveToDirectory){
         return ExecuteShell::get(
-	    sprintf('ffmpeg -y -i %s -ss %s%s -async 1 -strict -2 %s', 
-			escapeshellarg($this->source_filename), 
-			$this->startTime, 
-			isset($this->duration) ? sprintf(' -t %s', $this->duration) : '', 
-			escapeshellarg($this->getSaveFileName($saveToDirectory)))
+	    sprintf($this->encodingCommand, escapeshellarg($this->source_filename), $this->startTime, 
+		isset($this->duration) ? sprintf(' -t %s', $this->duration) : '', 
+		escapeshellarg($this->getSaveFileName($saveToDirectory)))
         );
     }
 }
