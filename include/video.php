@@ -39,8 +39,7 @@ class Video {
         if (!empty($this->pathToFiles)) {
             $this->destination_filename .= $this->pathToFiles . DIRECTORY_SEPARATOR;
         }
-        $src = (object) pathinfo($this->source_filename);
-        echo_output('[VIDEO] SRC="' . $src->basename . '"');
+        echo_output('[VIDEO] SRC="' . $this->source_filename . '"');
     }
 
     public function getSaveFileName($saveDirectory) {
@@ -49,8 +48,7 @@ class Video {
             mkdir($saveDirectory);
         }
         $saveFile = $saveDirectory . DIRECTORY_SEPARATOR . $this->name . '_' . $finfo['filename'] . '.' . $finfo['extension'];
-        $dest = (object) pathinfo($saveFile);
-        echo_output('[' . __FUNCTION__ . '] ' . $dest->basename);
+        echo_output('[' . __FUNCTION__ . '] ' . $saveFile);
 	return $saveFile;
     }
 
