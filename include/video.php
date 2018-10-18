@@ -53,7 +53,8 @@ class Video {
 	return $saveFile;
     }
 
-    public function getShell($saveToDirectory) {
+    public function getShell() {
+        $saveDirectory = Config::instance()->get('SAVE_DIRECTORY', 'config');
         return ExecuteShell::get(sprintf($this->encodingCommand, escapeshellarg($this->source_filename), $this->startTime, isset($this->duration) ? sprintf(' -t %s', $this->duration) : '', escapeshellarg($this->getSaveFileName($saveToDirectory))));
     }
 
