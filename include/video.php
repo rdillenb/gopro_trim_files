@@ -42,7 +42,8 @@ class Video {
         echo_output('[VIDEO] SRC="' . $this->source_filename . '"');
     }
 
-    public function getSaveFileName($saveDirectory) {
+    public function getSaveFileName() {
+        $saveDirectory = Config::instance()->get('SAVE_DIRECTORY', 'config');
         $finfo = pathinfo($this->source_filename);
         if (!is_dir($saveDirectory)) {
             mkdir($saveDirectory);
@@ -57,7 +58,10 @@ class Video {
     }
 
     public function destinationFileExists() {
-        return file_exists($this->destination_filename);
+        $saveDirectory = Config::instance()->get('SAVE_DIRECTORY', 'config');
+        $finfo = pathinfo($this->source_filename);
+        $saveFile = $saveDirectory . DIRECTORY_SEPARATOR . $this->name . '_' . $finfo['filename'] . '.' . $finfo['extension'];
+        return file_exists($saveFile);
     }
 
 }
