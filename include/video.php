@@ -54,8 +54,19 @@ class Video {
     }
 
     public function getShell() {
+        $script = pathinfo($_SERVER['SCRIPT_NAME']);
+        $logFilePath = Config::instance()->get('LOGFILE_PATH', 'config');
+        $logFile = sprintf('%s/%s', $logFilePath, $script['filename']);
         $saveToDirectory = Config::instance()->get('SAVE_DIRECTORY', 'config');
-        return ExecuteShell::get(sprintf($this->encodingCommand, escapeshellarg($this->source_filename), $this->startTime, isset($this->duration) ? sprintf(' -t %s', $this->duration) : '', escapeshellarg($this->getSaveFileName($saveToDirectory))));
+        $encodingCommand = sprintf($this->encodingCommand,
+                        (1.5 * Config::instance()->intValue('THREADS_MULTIPLIER', 'config', '1')),
+                        escapeshellarg($this->source_filename),
+                        $this->startTime, isset($this->duration) ? sprintf(' -t %s', $this->duration) : '',
+                        escapeshellarg($this->getSaveFileName($saveToDirectory)),
+                        $logFile . '.log', $logFile . '.err'
+        );
+        echo_output('[' . __FUNCTION__ . '] ' . $encodingCommand);
+        return ExecuteShell::get($encodingCommand);
     }
 
     public function destinationFileExists() {
