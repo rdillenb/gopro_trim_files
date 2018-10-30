@@ -59,7 +59,6 @@ class Video {
         $logFile = sprintf('%s/%s', $logFilePath, $script['filename']);
         $saveToDirectory = Config::instance()->get('SAVE_DIRECTORY', 'config');
         $encodingCommand = sprintf($this->encodingCommand,
-                        (1.5 * Config::instance()->intValue('THREADS_MULTIPLIER', 'config', '1')),
                         escapeshellarg($this->source_filename),
                         $this->startTime, isset($this->duration) ? sprintf(' -t %s', $this->duration) : '',
                         escapeshellarg($this->getSaveFileName($saveToDirectory)),

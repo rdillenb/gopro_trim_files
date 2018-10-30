@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-#error_reporting(0);
+error_reporting(0);
 
 require_once(dirname(__FILE__) . '/vendor/autoload.php');
 require_once(dirname(__FILE__) . '/include/misc_functions.php');
